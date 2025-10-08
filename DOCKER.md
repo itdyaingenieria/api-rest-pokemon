@@ -55,13 +55,12 @@ chmod +x scripts/setup-docker.sh
 | -------------- | --------------------- | ------------------------ |
 | **API**        | http://localhost:8000 | Pokemon API Backend      |
 | **phpMyAdmin** | http://localhost:8080 | Gestión de base de datos |
-| **MySQL**      | localhost:3306        | Base de datos            |
-| **Redis**      | localhost:6379        | Cache y sesiones         |
+| **MySQL**      | localhost:3307        | Base de datos            |
 
 ## 🗃️ Credenciales de Base de Datos
 
 -   **Host:** localhost (desde host) / db (desde contenedores)
--   **Puerto:** 3306
+-   **Puerto:** 3307 (externo) / 3306 (interno contenedor)
 -   **Database:** pokemon_api
 -   **Usuario:** pokemon_user
 -   **Password:** pokemon_password
@@ -122,11 +121,11 @@ docker-compose exec db mysql -u pokemon_user -ppokemon_password pokemon_api
 ## 🏗️ Arquitectura del Stack
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Laravel App   │    │     MySQL       │    │     Redis       │
-│   (PHP 8.3)     │◄──►│   (Database)    │    │    (Cache)      │
-│   Port: 8000    │    │   Port: 3306    │    │  Port: 6379     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌─────────────────┐    ┌─────────────────┐
+│   Laravel App   │    │     MySQL       │
+│   (PHP 8.3)     │◄──►│   (Database)    │
+│   Port: 8000    │    │   Port: 3307    │
+└─────────────────┘    └─────────────────┘
          │
          ▼
 ┌─────────────────┐

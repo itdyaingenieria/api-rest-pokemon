@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV WEB_DOCUMENT_ROOT=/app/public
 
-COPY composer.json  ./
+COPY composer.json ./
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 

@@ -34,14 +34,15 @@ fi
 echo "🔑 Configurando Laravel..."
 docker-compose -f docker-compose.simple.yml exec -T app php artisan key:generate --force
 
-# Limpiar cache por si hay problemas de Redis
+# Ejecutar migraciones PRIMERO (antes de limpiar cache)
+echo "�️ Ejecutando migraciones..."
+docker-compose -f docker-compose.simple.yml exec -T app php artisan migrate --force
+
+# Limpiar cache DESPUÉS de que existan las tablas
 echo "🗑️ Limpiando cache de Laravel..."
 docker-compose -f docker-compose.simple.yml exec -T app php artisan config:clear
 docker-compose -f docker-compose.simple.yml exec -T app php artisan cache:clear
 docker-compose -f docker-compose.simple.yml exec -T app php artisan route:clear
-
-# Ejecutar migraciones
-docker-compose -f docker-compose.simple.yml exec -T app php artisan migrate --force
 
 echo ""
 echo "✅ ¡LISTO!"

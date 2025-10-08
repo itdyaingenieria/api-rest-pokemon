@@ -49,7 +49,18 @@ FROM base AS development
 RUN composer install --dev
 
 # Enable Xdebug for development
-RUN apk add --no-cache "$PHPIZE_DEPS" linux-headers \
+RUN apk add --no-cache \
+    autoconf \
+    dpkg \
+    dpkg-dev \
+    file \
+    g++ \
+    gcc \
+    libc-dev \
+    linux-headers \
+    make \
+    pkgconf \
+    re2c \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 

@@ -60,19 +60,29 @@ Siguiendo la [documentación de PokeAPI](https://pokeapi.co/docs/v2) y la [guía
 
 ### 🛠️ Configuración e Instalación
 
-#### 🐳 Opción A: Docker (Recomendado - Configuración Más Rápida)
+#### 🐳 Opción A: Docker (Recomendado - Configuración Ultra Rápida)
 
 ```bash
 git clone <https://github.com/itdyaingenieria/api-rest-pokemon.git>
 cd api-rest-pokemon
-./scripts/setup-docker.sh  # Linux/Mac
-# O
-scripts\setup-docker.bat   # Windows
+
+# Despliegue súper simple (Linux/Mac/WSL)
+./scripts/setup-simple.sh
+
+# Windows PowerShell
+.\scripts\setup-simple.sh
 ```
 
-**✅ ¡Listo!** Tu API estará disponible en http://localhost:8000
+**✅ ¡Listo en menos de 1 minuto!**
 
-📖 **Guía completa de Docker**: [DOCKER.md](DOCKER.md)
+🌐 **API**: http://localhost:8000  
+🗄️ **phpMyAdmin**: http://localhost:8080  
+🧪 **Test**: `curl http://localhost:8000/api/status`
+
+📖 **Guías disponibles:**  
+├── [DOCKER-QUICK.md](DOCKER-QUICK.md) - Inicio rápido  
+├── [SCRIPTS.md](SCRIPTS.md) - Todos los scripts explicados  
+└── [DOCKER.md](DOCKER.md) - Configuración avanzada
 
 #### 💻 Opción B: Instalación Local
 

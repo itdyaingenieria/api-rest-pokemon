@@ -10,7 +10,18 @@ Esta guía te ayuda a ejecutar la Pokemon API usando Docker para un entorno de d
 
 ## 🚀 Inicio Rápido
 
-### Opción 1: Script Automático (Recomendado)
+### ⚡ Opción 1: Setup Ultra Simple (Recomendado)
+
+```bash
+# Una sola línea - configuración completa
+./scripts/setup-simple.sh
+```
+
+**¡Listo en 30 segundos!** ✅
+
+📖 **Guía rápida completa**: [DOCKER-QUICK.md](DOCKER-QUICK.md)
+
+### 🔧 Opción 2: Script Completo (Configuración avanzada)
 
 **Windows:**
 
@@ -25,7 +36,7 @@ chmod +x scripts/setup-docker.sh
 ./scripts/setup-docker.sh
 ```
 
-### Opción 2: Manual
+### 🛠️ Opción 3: Manual
 
 1. **Clonar y configurar:**
 

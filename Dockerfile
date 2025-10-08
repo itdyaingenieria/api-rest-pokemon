@@ -2,16 +2,15 @@ FROM php:8.3-fpm-alpine AS base
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
-    git \
     curl \
+    git \
     libpng-dev \
-    oniguruma-dev \
     libxml2-dev \
-    zip \
-    unzip \
     mysql-client \
     nginx \
-    supervisor
+    oniguruma-dev \
+    unzip \
+    zip
 
 RUN docker-php-ext-install \
     pdo_mysql \
@@ -39,11 +38,12 @@ RUN chown -R www-data:www-data /var/www/html \
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/default.conf /etc/nginx/http.d/default.conf
 
-COPY docker/supervisord.conf /etc/supervisor/supervisord.conf
+COPY docker/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/local/bin/start.sh"]
 
 FROM base AS development
 

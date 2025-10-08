@@ -1,78 +1,48 @@
-FROM php:8.3-fpm-alpine AS base
+# Imagen que ya tiene PHP + Nginx + extensiones comunes
+FROM webdevops/php-nginx:8.3-alpine AS base
 
-# Install system dependencies and PHP extensions
-RUN apk add --no-cache \
-    curl \
-    git \
-    libpng-dev \
-    libxml2-dev \
-    mysql-client \
-    nginx \
-    oniguruma-dev \
-    unzip \
-    zip
-
-RUN docker-php-ext-install \
-    pdo_mysql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd
+# Solo instalar lo que necesitamos adicional
+RUN apk add --no-cache mysql-client git
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /app
 
+# Copiar y instalar dependencias de Composer
 COPY composer.json ./
-RUN composer install --no-dev --no-scripts --no-autoloader --optimize-autoloader
+RUN composer install --no-dev --no-scripts --optimize-autoloader
 
+# Copiar código fuente
 COPY . .
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache \
-    && composer dump-autoload --optimize
+# Configurar permisos
+RUN chown -R application:application /app \
+    && chmod -R 755 storage bootstrap/cache
 
-COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/default.conf /etc/nginx/http.d/default.conf
-
-COPY docker/start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+# Configurar Nginx
+ENV WEB_DOCUMENT_ROOT=/app/public
 
 EXPOSE 80
 
-CMD ["/usr/local/bin/start.sh"]
-
+# Etapa de desarrollo
 FROM base AS development
 
+# Instalar dependencias de desarrollo
 RUN composer install --dev
 
-# Enable Xdebug for development
-RUN apk add --no-cache \
-    autoconf \
-    dpkg \
-    dpkg-dev \
-    file \
-    g++ \
-    gcc \
-    libc-dev \
-    linux-headers \
-    make \
-    pkgconf \
-    re2c \
+# Instalar Xdebug (rápido con imagen precompilada)
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && pecl install xdebug \
-    && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && apk del .build-deps
 
-# Fix git ownership issue
-RUN git config --global --add safe.directory /var/www/html
+# Configurar git
+RUN git config --global --add safe.directory /app
 
-COPY docker/php-dev.ini /usr/local/etc/php/conf.d/99-dev.ini
-
+# Etapa de producción
 FROM base AS production
 
+# Cachear configuraciones de Laravel
 RUN php artisan config:cache || true \
     && php artisan route:cache || true \
     && php artisan view:cache || true
-
-COPY docker/php-prod.ini /usr/local/etc/php/conf.d/99-prod.ini

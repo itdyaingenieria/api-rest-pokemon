@@ -79,8 +79,8 @@ scripts\setup-docker.bat   # Windows
 1. **Clonar e instalar dependencias**
 
     ```bash
-    git clone <repository-url>
-    cd api-rest
+    git clone <https://github.com/itdyaingenieria/api-rest-pokemon.git>
+    cd api-rest-pokemon
     composer install
     ```
 

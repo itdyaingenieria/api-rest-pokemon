@@ -1,0 +1,38 @@
+# Pokemon API - Docker Compose Ultra Simple
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=local
+      - DB_HOST=db
+      - DB_DATABASE=pokemon_api
+      - DB_USERNAME=pokemon_user
+      - DB_PASSWORD=pokemon_password
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: pokemon_api
+      MYSQL_USER: pokemon_user
+      MYSQL_PASSWORD: pokemon_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: pokemon_user
+      PMA_PASSWORD: pokemon_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

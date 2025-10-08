@@ -1,5 +1,4 @@
 # Pokemon API - Laravel Backend - DFYA
-version: '3.8'
 
 services:
   # Laravel Application

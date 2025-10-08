@@ -30,8 +30,8 @@ chmod +x scripts/setup-docker.sh
 1. **Clonar y configurar:**
 
     ```bash
-    git clone <repository-url>
-    cd api-rest
+    git clone <https://github.com/itdyaingenieria/api-rest-pokemon.git>
+    cd api-rest-pokemon
     cp .env.docker .env
     ```
 

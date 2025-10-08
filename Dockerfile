@@ -10,6 +10,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . /app
 
+# Use Docker-specific environment configuration
+COPY .env.docker /app/.env
+
 RUN composer dump-autoload --optimize \
     && chown -R application:application /app \
     && chmod -R 755 storage bootstrap/cache

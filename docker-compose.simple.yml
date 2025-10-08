@@ -26,6 +26,12 @@ services:
     ports:
       - "3307:3306"
 
+  # Redis dummy service (Laravel needs it configured but we won't use it)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:

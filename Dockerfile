@@ -32,9 +32,9 @@ COPY . .
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
-
-RUN composer dump-autoload --optimize
+    && chmod -R 755 /var/www/html/bootstrap/cache \
+    && mkdir -p /var/log/supervisor \
+    && composer dump-autoload --optimize
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/default.conf /etc/nginx/http.d/default.conf
@@ -50,7 +50,7 @@ FROM base AS development
 RUN composer install --dev
 
 # Enable Xdebug for development
-RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
+RUN apk add --no-cache "$PHPIZE_DEPS" linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 

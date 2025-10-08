@@ -54,6 +54,9 @@ RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+# Fix git ownership issue
+RUN git config --global --add safe.directory /var/www/html
+
 COPY docker/php-dev.ini /usr/local/etc/php/conf.d/99-dev.ini
 
 FROM base AS production

@@ -50,7 +50,7 @@ FROM base AS development
 RUN composer install --dev
 
 # Enable Xdebug for development
-RUN apk add --no-cache $PHPIZE_DEPS \
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 

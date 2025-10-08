@@ -63,8 +63,8 @@ Siguiendo la [documentación de PokeAPI](https://pokeapi.co/docs/v2) y la [guía
 #### 🐳 Opción A: Docker (Recomendado - Configuración Más Rápida)
 
 ```bash
-git clone <repository-url>
-cd api-rest
+git clone <https://github.com/itdyaingenieria/api-rest-pokemon.git>
+cd api-rest-pokemon
 ./scripts/setup-docker.sh  # Linux/Mac
 # O
 scripts\setup-docker.bat   # Windows
